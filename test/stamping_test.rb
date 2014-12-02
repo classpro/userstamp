@@ -18,10 +18,10 @@ class StampingTests < Test::Unit::TestCase  # :nodoc:
     assert_equal @zeus.id, User.stamper
     
     person = Person.create(:name => "David")
-    assert_equal @zeus.id, person.maker_id
-    assert_equal @zeus.id, person.modifier_id
-    assert_equal @zeus, person.maker
-    assert_equal @zeus, person.modifier
+    assert_equal @zeus.id, person.creatorr_id
+    assert_equal @zeus.id, person.updatorr_id
+    assert_equal @zeus, person.creatorr
+    assert_equal @zeus, person.updatorr
   end
 
   def test_person_creation_with_stamped_integer
@@ -29,20 +29,20 @@ class StampingTests < Test::Unit::TestCase  # :nodoc:
     assert_equal 2, User.stamper
 
     person = Person.create(:name => "Daniel")
-    assert_equal @hera.id, person.maker_id
-    assert_equal @hera.id,  person.modifier_id
-    assert_equal @hera, person.maker
-    assert_equal @hera, person.modifier
+    assert_equal @hera.id, person.creatorr_id
+    assert_equal @hera.id,  person.updatorr_id
+    assert_equal @hera, person.creatorr
+    assert_equal @hera, person.updatorr
   end
 
   def test_post_creation_with_stamped_object
     assert_equal @delynn.id, Person.stamper
 
     post = Post.create(:title => "Test Post - 1")
-    assert_equal @delynn.id, post.maker_id
-    assert_equal @delynn.id, post.modifier_id
-    assert_equal @delynn, post.maker
-    assert_equal @delynn, post.modifier
+    assert_equal @delynn.id, post.creatorr_id
+    assert_equal @delynn.id, post.updatorr_id
+    assert_equal @delynn, post.creatorr
+    assert_equal @delynn, post.updatorr
   end
 
   def test_post_creation_with_stamped_integer
@@ -50,10 +50,10 @@ class StampingTests < Test::Unit::TestCase  # :nodoc:
     assert_equal 2, Person.stamper
 
     post = Post.create(:title => "Test Post - 2")
-    assert_equal @nicole.id, post.maker_id
-    assert_equal @nicole.id, post.modifier_id
-    assert_equal @nicole, post.maker
-    assert_equal @nicole, post.modifier
+    assert_equal @nicole.id, post.creatorr_id
+    assert_equal @nicole.id, post.updatorr_id
+    assert_equal @nicole, post.creatorr
+    assert_equal @nicole, post.updatorr
   end
 
   def test_person_updating_with_stamped_object
@@ -63,10 +63,10 @@ class StampingTests < Test::Unit::TestCase  # :nodoc:
     @delynn.name << " Berry"
     @delynn.save
     @delynn.reload
-    assert_equal @zeus, @delynn.maker
-    assert_equal @hera, @delynn.modifier
-    assert_equal @zeus.id, @delynn.maker_id
-    assert_equal @hera.id, @delynn.modifier_id
+    assert_equal @zeus, @delynn.creatorr
+    assert_equal @hera, @delynn.updatorr
+    assert_equal @zeus.id, @delynn.creatorr_id
+    assert_equal @hera.id, @delynn.updatorr_id
   end
 
   def test_person_updating_with_stamped_integer
@@ -76,10 +76,10 @@ class StampingTests < Test::Unit::TestCase  # :nodoc:
     @delynn.name << " Berry"
     @delynn.save
     @delynn.reload
-    assert_equal @zeus.id, @delynn.maker_id
-    assert_equal @hera.id, @delynn.modifier_id
-    assert_equal @zeus, @delynn.maker
-    assert_equal @hera, @delynn.modifier
+    assert_equal @zeus.id, @delynn.creatorr_id
+    assert_equal @hera.id, @delynn.updatorr_id
+    assert_equal @zeus, @delynn.creatorr
+    assert_equal @hera, @delynn.updatorr
   end
 
   def test_post_updating_with_stamped_object
@@ -89,10 +89,10 @@ class StampingTests < Test::Unit::TestCase  # :nodoc:
     @first_post.title << " - Updated"
     @first_post.save
     @first_post.reload
-    assert_equal @delynn.id, @first_post.maker_id
-    assert_equal @nicole.id, @first_post.modifier_id
-    assert_equal @delynn, @first_post.maker
-    assert_equal @nicole, @first_post.modifier
+    assert_equal @delynn.id, @first_post.creatorr_id
+    assert_equal @nicole.id, @first_post.updatorr_id
+    assert_equal @delynn, @first_post.creatorr
+    assert_equal @nicole, @first_post.updatorr
   end
 
   def test_post_updating_with_stamped_integer
@@ -102,9 +102,9 @@ class StampingTests < Test::Unit::TestCase  # :nodoc:
     @first_post.title << " - Updated"
     @first_post.save
     @first_post.reload
-    assert_equal @delynn.id, @first_post.maker_id
-    assert_equal @nicole.id, @first_post.modifier_id
-    assert_equal @delynn, @first_post.maker
-    assert_equal @nicole, @first_post.modifier
+    assert_equal @delynn.id, @first_post.creatorr_id
+    assert_equal @nicole.id, @first_post.updatorr_id
+    assert_equal @delynn, @first_post.creatorr
+    assert_equal @nicole, @first_post.updatorr
   end
 end

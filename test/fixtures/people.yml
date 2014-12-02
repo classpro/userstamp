@@ -2,10 +2,10 @@
 delynn:
   id: 1
   name: DeLynn
-  maker_id: 1
-  modifier_id: 1
+  creatorr_id: 1
+  updatorr_id: 1
 nicole:
   id: 2
   name: Nicole
-  maker_id: 2
-  modifier_id: 2
+  creatorr_id: 2
+  updatorr_id: 2
