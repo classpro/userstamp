@@ -74,7 +74,7 @@
 <p>
 The Userstamp Plugin extends <a
 href="http://api.rubyonrails.com/classes/ActiveRecord/Base.html">ActiveRecord::Base</a>
-to add automatic updating of &#8216;creator&#8217;, &#8216;updater&#8217;,
+to add automatic updating of &#8216;maker&#8217;, &#8216;modifier&#8217;,
 and &#8216;deleter&#8217; attributes. It is based loosely on the <a
 href="http://api.rubyonrails.com/classes/ActiveRecord/Timestamp.html">ActiveRecord::Timestamp</a>
 module.
@@ -213,7 +213,7 @@ concurrent requests.
 </p>
 <p>
 The <tt>stampable</tt> method allows you to customize what columns will get
-stamped, and also creates the <tt>creator</tt>, <tt>updater</tt>, and
+stamped, and also creates the <tt>maker</tt>, <tt>modifier</tt>, and
 <tt>deleter</tt> associations.
 </p>
 <p>
@@ -247,8 +247,8 @@ quick example:
 <pre>
   class Post &lt; ActiveRecord::Base
     acts_as_stampable :stamper_class_name =&gt; :person,
-                      :creator_attribute  =&gt; :create_user,
-                      :updater_attribute  =&gt; :update_user,
+                      :maker_attribute  =&gt; :create_user,
+                      :modifier_attribute  =&gt; :update_user,
                       :deleter_attribute  =&gt; :delete_user
   end
 </pre>

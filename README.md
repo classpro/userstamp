@@ -4,8 +4,8 @@ Userstamp Plugin (v 2.0)
 Overview
 --------
 
-The Userstamp Plugin extends [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html) to add automatic updating of 'creator',
-'updater', and 'deleter' attributes. It is based loosely on the [ActiveRecord::Timestamp](http://api.rubyonrails.org/classes/ActiveRecord/Timestamp.html) module.
+The Userstamp Plugin extends [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html) to add automatic updating of 'maker',
+'modifier', and 'deleter' attributes. It is based loosely on the [ActiveRecord::Timestamp](http://api.rubyonrails.org/classes/ActiveRecord/Timestamp.html) module.
 
 Two class methods (`model_stamper` and `stampable`) are implemented in this plugin.
 The `model_stamper` method is used in models that are responsible for creating, updating, or
@@ -131,7 +131,7 @@ The big change with this new version is that we are now using Thread.current to 
 stamper so as to avoid conflict with concurrent requests.
 
 The `stampable` method allows you to customize what columns will get stamped, and also
-creates the _creator_, _updater_, and _deleter_ associations.
+creates the _maker_, _modifier_, and _deleter_ associations.
 
 The Userstamp module that we included into our ApplicationController uses the setter method to
 set which user is currently making the request. By default the 'set_stampers' method works perfectly
@@ -156,8 +156,8 @@ completely customized. Here's an quick example:
 ```ruby
 class Post < ActiveRecord::Base
   acts_as_stampable :stamper_class_name => :person,
-                    :creator_attribute  => :create_user,
-                    :updater_attribute  => :update_user,
+                    :maker_attribute  => :create_user,
+                    :modifier_attribute  => :update_user,
                     :deleter_attribute  => :delete_user
 end
 ```

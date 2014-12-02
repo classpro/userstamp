@@ -27,7 +27,7 @@ class PostsControllerTest < Test::Unit::TestCase
     post :update, :id => 1, :post => {:title => 'Different'}
     assert_response :success
     assert_equal    'Different', assigns["post"].title
-    assert_equal    @delynn, assigns["post"].updater
+    assert_equal    @delynn, assigns["post"].modifier
   end
 
   def test_update_with_multiple_requests
@@ -40,7 +40,7 @@ class PostsControllerTest < Test::Unit::TestCase
     post :update, :id => 2, :post => {:title => 'Different'}
     assert_response :success
     assert_equal    'Different', assigns["post"].title
-    assert_equal    @delynn, assigns["post"].updater
+    assert_equal    @delynn, assigns["post"].modifier
   end
   
   def simulate_second_request
@@ -63,7 +63,7 @@ class PostsControllerTest < Test::Unit::TestCase
     @second_request.set_REQUEST_URI(url.rewrite(options))
     @second_controller.process(@second_request, @second_response)
     
-    assert_equal    @nicole, @second_response.template.instance_variable_get("@post").updater
+    assert_equal    @nicole, @second_response.template.instance_variable_get("@post").modifier
   end
 end
 
@@ -81,7 +81,7 @@ class UsersControllerTest < Test::Unit::TestCase
     post :update, :id => 2, :user => {:name => 'Different'}
     assert_response :success
     assert_equal    'Different', assigns["user"].name
-    assert_equal    @hera, assigns["user"].updater
+    assert_equal    @hera, assigns["user"].modifier
   end
   
   def test_update_with_multiple_requests
@@ -113,6 +113,6 @@ class UsersControllerTest < Test::Unit::TestCase
     @second_request.set_REQUEST_URI(url.rewrite(options))
     @second_controller.process(@second_request, @second_response)
     
-    assert_equal    @zeus, @second_response.template.instance_variable_get("@user").updater
+    assert_equal    @zeus, @second_response.template.instance_variable_get("@user").modifier
   end
 end

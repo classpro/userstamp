@@ -121,8 +121,8 @@ is the method to use. Here&#8216;s an example:
 <pre>
   class Post &lt; ActiveRecord::Base
     stampable :stamper_class_name =&gt; :person,
-              :creator_attribute  =&gt; :create_user,
-              :updater_attribute  =&gt; :update_user,
+              :maker_attribute  =&gt; :create_user,
+              :modifier_attribute  =&gt; :update_user,
               :deleter_attribute  =&gt; :delete_user
   end
 </pre>
@@ -139,25 +139,25 @@ stamping.
 68:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stampable</span>(<span class="ruby-identifier">options</span> = {})
 69:           <span class="ruby-identifier">defaults</span>  = {
 70:                         <span class="ruby-identifier">:stamper_class_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:user</span>,
-71:                         <span class="ruby-identifier">:creator_attribute</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Ddb</span><span class="ruby-operator">::</span><span class="ruby-constant">Userstamp</span>.<span class="ruby-identifier">compatibility_mode</span> <span class="ruby-value">? </span><span class="ruby-operator">:</span><span class="ruby-identifier">created_by</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">:creator_id</span>,
-72:                         <span class="ruby-identifier">:updater_attribute</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Ddb</span><span class="ruby-operator">::</span><span class="ruby-constant">Userstamp</span>.<span class="ruby-identifier">compatibility_mode</span> <span class="ruby-value">? </span><span class="ruby-operator">:</span><span class="ruby-identifier">updated_by</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">:updater_id</span>,
+71:                         <span class="ruby-identifier">:maker_attribute</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Ddb</span><span class="ruby-operator">::</span><span class="ruby-constant">Userstamp</span>.<span class="ruby-identifier">compatibility_mode</span> <span class="ruby-value">? </span><span class="ruby-operator">:</span><span class="ruby-identifier">created_by</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">:maker_id</span>,
+72:                         <span class="ruby-identifier">:modifier_attribute</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Ddb</span><span class="ruby-operator">::</span><span class="ruby-constant">Userstamp</span>.<span class="ruby-identifier">compatibility_mode</span> <span class="ruby-value">? </span><span class="ruby-operator">:</span><span class="ruby-identifier">updated_by</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">:modifier_id</span>,
 73:                         <span class="ruby-identifier">:deleter_attribute</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Ddb</span><span class="ruby-operator">::</span><span class="ruby-constant">Userstamp</span>.<span class="ruby-identifier">compatibility_mode</span> <span class="ruby-value">? </span><span class="ruby-operator">:</span><span class="ruby-identifier">deleted_by</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">:deleter_id</span>
 74:                       }.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
 75: 
 76:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stamper_class_name</span> = <span class="ruby-identifier">defaults</span>[<span class="ruby-identifier">:stamper_class_name</span>].<span class="ruby-identifier">to_sym</span>
-77:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">creator_attribute</span>  = <span class="ruby-identifier">defaults</span>[<span class="ruby-identifier">:creator_attribute</span>].<span class="ruby-identifier">to_sym</span>
-78:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">updater_attribute</span>  = <span class="ruby-identifier">defaults</span>[<span class="ruby-identifier">:updater_attribute</span>].<span class="ruby-identifier">to_sym</span>
+77:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">maker_attribute</span>  = <span class="ruby-identifier">defaults</span>[<span class="ruby-identifier">:maker_attribute</span>].<span class="ruby-identifier">to_sym</span>
+78:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">modifier_attribute</span>  = <span class="ruby-identifier">defaults</span>[<span class="ruby-identifier">:modifier_attribute</span>].<span class="ruby-identifier">to_sym</span>
 79:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">deleter_attribute</span>  = <span class="ruby-identifier">defaults</span>[<span class="ruby-identifier">:deleter_attribute</span>].<span class="ruby-identifier">to_sym</span>
 80: 
 81:           <span class="ruby-identifier">class_eval</span> <span class="ruby-keyword kw">do</span>
-82:             <span class="ruby-identifier">belongs_to</span> <span class="ruby-identifier">:creator</span>, <span class="ruby-identifier">:class_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stamper_class_name</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">singularize</span>.<span class="ruby-identifier">camelize</span>,
-83:                                  <span class="ruby-identifier">:foreign_key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">creator_attribute</span>
+82:             <span class="ruby-identifier">belongs_to</span> <span class="ruby-identifier">:maker</span>, <span class="ruby-identifier">:class_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stamper_class_name</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">singularize</span>.<span class="ruby-identifier">camelize</span>,
+83:                                  <span class="ruby-identifier">:foreign_key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">maker_attribute</span>
 84:                                  
-85:             <span class="ruby-identifier">belongs_to</span> <span class="ruby-identifier">:updater</span>, <span class="ruby-identifier">:class_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stamper_class_name</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">singularize</span>.<span class="ruby-identifier">camelize</span>,
-86:                                  <span class="ruby-identifier">:foreign_key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">updater_attribute</span>
+85:             <span class="ruby-identifier">belongs_to</span> <span class="ruby-identifier">:modifier</span>, <span class="ruby-identifier">:class_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stamper_class_name</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">singularize</span>.<span class="ruby-identifier">camelize</span>,
+86:                                  <span class="ruby-identifier">:foreign_key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">modifier_attribute</span>
 87:                                  
-88:             <span class="ruby-identifier">before_save</span>     <span class="ruby-identifier">:set_updater_attribute</span>
-89:             <span class="ruby-identifier">before_create</span>   <span class="ruby-identifier">:set_creator_attribute</span>
+88:             <span class="ruby-identifier">before_save</span>     <span class="ruby-identifier">:set_modifier_attribute</span>
+89:             <span class="ruby-identifier">before_create</span>   <span class="ruby-identifier">:set_maker_attribute</span>
 90:                                  
 91:             <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">defined?</span>(<span class="ruby-constant">Caboose</span><span class="ruby-operator">::</span><span class="ruby-constant">Acts</span><span class="ruby-operator">::</span><span class="ruby-constant">Paranoid</span>)
 92:               <span class="ruby-identifier">belongs_to</span> <span class="ruby-identifier">:deleter</span>, <span class="ruby-identifier">:class_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stamper_class_name</span>,
