@@ -8,7 +8,7 @@ module Ddb
       module InstanceMethods
         def userstamps(include_deleted_by = false)
           column(Ddb::Userstamp.compatibility_mode ? :created_by_id : :creatorr_id, :integer)
-          column(Ddb::Userstamp.compatibility_mode ? :updated_by : :updatorr_id, :integer)
+          column(Ddb::Userstamp.compatibility_mode ? :updated_by_id : :updatorr_id, :integer)
           column(Ddb::Userstamp.compatibility_mode ? :deleted_by : :deleter_id, :integer) if include_deleted_by
         end
       end

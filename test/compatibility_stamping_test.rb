@@ -19,7 +19,7 @@ class CompatibilityStampingTests< Test::Unit::TestCase  # :nodoc:
 
     comment = Comment.create(:comment => "Test Comment")
     assert_equal @delynn.id, comment.created_by_id
-    assert_equal @delynn.id, comment.updated_by
+    assert_equal @delynn.id, comment.updated_by_id
     assert_equal @delynn, comment.creatorr
     assert_equal @delynn, comment.updatorr
   end
@@ -30,7 +30,7 @@ class CompatibilityStampingTests< Test::Unit::TestCase  # :nodoc:
 
     comment = Comment.create(:comment => "Test Comment - 2")
     assert_equal @nicole.id, comment.created_by_id
-    assert_equal @nicole.id, comment.updated_by
+    assert_equal @nicole.id, comment.updated_by_id
     assert_equal @nicole, comment.creatorr
     assert_equal @nicole, comment.updatorr
   end
@@ -43,7 +43,7 @@ class CompatibilityStampingTests< Test::Unit::TestCase  # :nodoc:
     @first_comment.save
     @first_comment.reload
     assert_equal @delynn.id, @first_comment.created_by_id
-    assert_equal @nicole.id, @first_comment.updated_by
+    assert_equal @nicole.id, @first_comment.updated_by_id
     assert_equal @delynn, @first_comment.creatorr
     assert_equal @nicole, @first_comment.updatorr
   end
@@ -56,7 +56,7 @@ class CompatibilityStampingTests< Test::Unit::TestCase  # :nodoc:
     @first_comment.save
     @first_comment.reload
     assert_equal @delynn.id, @first_comment.created_by_id
-    assert_equal @nicole.id, @first_comment.updated_by
+    assert_equal @nicole.id, @first_comment.updated_by_id
     assert_equal @delynn, @first_comment.creatorr
     assert_equal @nicole, @first_comment.updatorr
   end

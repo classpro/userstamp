@@ -10,7 +10,7 @@ module Ddb #:nodoc:
     #   Ddb::Userstamp.compatibility_mode = true
     #
     # This will cause the plug-in to use columns named <tt>created_by_id</tt>,
-    # <tt>updated_by</tt>, and <tt>deleted_by</tt>.
+    # <tt>updated_by_id</tt>, and <tt>deleted_by</tt>.
     mattr_accessor :compatibility_mode
     @@compatibility_mode = false
 
@@ -39,8 +39,8 @@ module Ddb #:nodoc:
 
           # What column should be used for the updatorr stamp?
           # Defaults to :updatorr_id when compatibility mode is off
-          # Defaults to :updated_by when compatibility mode is on
-          class_attribute  :updated_by
+          # Defaults to :updated_by_id when compatibility mode is on
+          class_attribute  :updated_by_id
 
           # What column should be used for the deleter stamp?
           # Defaults to :deleter_id when compatibility mode is off
@@ -70,7 +70,7 @@ module Ddb #:nodoc:
           class_eval do
             belongs_to :creatorr, :class_name => "User", :foreign_key => "created_by_id"
                                  
-            belongs_to :updatorr, :class_name => "User", :foreign_key => "updated_by"
+            belongs_to :updatorr, :class_name => "User", :foreign_key => "updated_by_id"
                                  
             before_save     :set_updator_attribute
             before_create   :set_creator_attribute
@@ -116,8 +116,8 @@ module Ddb #:nodoc:
 
           def set_updator_attribute
             return unless self.record_userstamp
-            if respond_to?(self.updated_by.to_sym) && has_stamper?
-              self.send("#{self.updated_by}=".to_sym, self.class.stamper_class.stamper)
+            if respond_to?(self.updated_by_id.to_sym) && has_stamper?
+              self.send("#{self.updated_by_id}=".to_sym, self.class.stamper_class.stamper)
             end
           end
 
