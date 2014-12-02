@@ -79,11 +79,11 @@ module Ddb #:nodoc:
           self.deleter_attribute  = defaults[:deleter_attribute].to_sym
 
           class_eval do
-            belongs_to :creatorr, :class_name => self.stamper_class_name.to_s.singularize.camelize,
-                                 :foreign_key => self.creatorr_attribute
+            belongs_to :creatorr, :class_name => "User",
+                                 :foreign_key => "created_by"
                                  
-            belongs_to :updatorr, :class_name => self.stamper_class_name.to_s.singularize.camelize,
-                                 :foreign_key => self.updatorr_attribute
+            belongs_to :updatorr, :class_name => "User",
+                                 :foreign_key => "updated_by"
                                  
             before_save     :set_updatorr_attribute
             before_create   :set_creatorr_attribute
