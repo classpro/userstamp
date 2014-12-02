@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column :created_at,     :datetime
     t.column :updated_by_id,     :integer
     t.column :updated_at,     :datetime
-    t.column :deleted_by,     :integer
+    t.column :deleted_by_id,     :integer
     t.column :deleted_at,     :datetime
   end
 

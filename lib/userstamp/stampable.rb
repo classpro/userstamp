@@ -10,7 +10,7 @@ module Ddb #:nodoc:
     #   Ddb::Userstamp.compatibility_mode = true
     #
     # This will cause the plug-in to use columns named <tt>created_by_id</tt>,
-    # <tt>updated_by_id</tt>, and <tt>deleted_by</tt>.
+    # <tt>updated_by_id</tt>, and <tt>deleted_by_id</tt>.
     mattr_accessor :compatibility_mode
     @@compatibility_mode = false
 
@@ -44,8 +44,8 @@ module Ddb #:nodoc:
 
           # What column should be used for the deleter stamp?
           # Defaults to :deleter_id when compatibility mode is off
-          # Defaults to :deleted_by when compatibility mode is on
-          class_attribute  :deleted_by
+          # Defaults to :deleted_by_id when compatibility mode is on
+          class_attribute  :deleted_by_id
 
           self.stampable
         end
@@ -76,7 +76,7 @@ module Ddb #:nodoc:
             before_create   :set_creator_attribute
                                  
             if defined?(Caboose::Acts::Paranoid)
-              belongs_to :deleter, :class_name => "User", :foreign_key => "deleted_by"
+              belongs_to :deleter, :class_name => "User", :foreign_key => "deleted_by_id"
               before_destroy  :set_deleter_attribute
             end
           end
@@ -123,8 +123,8 @@ module Ddb #:nodoc:
 
           def set_deleter_attribute
             return unless self.record_userstamp
-            if respond_to?(self.deleted_by.to_sym) && has_stamper?
-              self.send("#{self.deleted_by}=".to_sym, self.class.stamper_class.stamper)
+            if respond_to?(self.deleted_by_id.to_sym) && has_stamper?
+              self.send("#{self.deleted_by_id}=".to_sym, self.class.stamper_class.stamper)
               save
             end
           end
