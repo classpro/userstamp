@@ -35,17 +35,17 @@ module Ddb #:nodoc:
           # What column should be used for the creatorr stamp?
           # Defaults to :creatorr_id when compatibility mode is off
           # Defaults to :created_by when compatibility mode is on
-          class_attribute  :creatorr_attribute
+          class_attribute  :created_by
 
           # What column should be used for the updatorr stamp?
           # Defaults to :updatorr_id when compatibility mode is off
           # Defaults to :updated_by when compatibility mode is on
-          class_attribute  :updatorr_attribute
+          class_attribute  :updated_by
 
           # What column should be used for the deleter stamp?
           # Defaults to :deleter_id when compatibility mode is off
           # Defaults to :deleted_by when compatibility mode is on
-          class_attribute  :deleter_attribute
+          class_attribute  :deleted_by
 
           self.stampable
         end
@@ -66,31 +66,17 @@ module Ddb #:nodoc:
         # The method will automatically setup all the associations, and create <tt>before_save</tt>
         # and <tt>before_create</tt> filters for doing the stamping.
         def stampable(options = {})
-          defaults  = {
-                        :stamper_class_name => :user,
-                        :creatorr_attribute  => Ddb::Userstamp.compatibility_mode ? :created_by : :creatorr_id,
-                        :updatorr_attribute  => Ddb::Userstamp.compatibility_mode ? :updated_by : :updatorr_id,
-                        :deleter_attribute  => Ddb::Userstamp.compatibility_mode ? :deleted_by : :deleter_id
-                      }.merge(options)
-
-          self.stamper_class_name = defaults[:stamper_class_name].to_sym
-          self.creatorr_attribute  = defaults[:creatorr_attribute].to_sym
-          self.updatorr_attribute  = defaults[:updatorr_attribute].to_sym
-          self.deleter_attribute  = defaults[:deleter_attribute].to_sym
 
           class_eval do
-            belongs_to :creatorr, :class_name => "User",
-                                 :foreign_key => "created_by"
+            belongs_to :creatorr, :class_name => "User", :foreign_key => "created_by"
                                  
-            belongs_to :updatorr, :class_name => "User",
-                                 :foreign_key => "updated_by"
+            belongs_to :updatorr, :class_name => "User", :foreign_key => "updated_by"
                                  
-            before_save     :set_updatorr_attribute
-            before_create   :set_creatorr_attribute
+            before_save     :set_updator_attribute
+            before_create   :set_creator_attribute
                                  
             if defined?(Caboose::Acts::Paranoid)
-              belongs_to :deleter, :class_name => self.stamper_class_name.to_s.singularize.camelize,
-                                   :foreign_key => self.deleter_attribute
+              belongs_to :deleter, :class_name => "User", :foreign_key => "deleted_by"
               before_destroy  :set_deleter_attribute
             end
           end
@@ -121,24 +107,24 @@ module Ddb #:nodoc:
             !self.class.stamper_class.nil? && !self.class.stamper_class.stamper.nil? rescue false
           end
 
-          def set_creatorr_attribute
+          def set_creator_attribute
             return unless self.record_userstamp
-            if respond_to?(self.creatorr_attribute.to_sym) && has_stamper?
-              self.send("#{self.creatorr_attribute}=".to_sym, self.class.stamper_class.stamper)
+            if respond_to?(self.created_by.to_sym) && has_stamper?
+              self.send("#{self.created_by}=".to_sym, self.class.stamper_class.stamper)
             end
           end
 
-          def set_updatorr_attribute
+          def set_updator_attribute
             return unless self.record_userstamp
-            if respond_to?(self.updatorr_attribute.to_sym) && has_stamper?
-              self.send("#{self.updatorr_attribute}=".to_sym, self.class.stamper_class.stamper)
+            if respond_to?(self.updated_by.to_sym) && has_stamper?
+              self.send("#{self.updated_by}=".to_sym, self.class.stamper_class.stamper)
             end
           end
 
           def set_deleter_attribute
             return unless self.record_userstamp
-            if respond_to?(self.deleter_attribute.to_sym) && has_stamper?
-              self.send("#{self.deleter_attribute}=".to_sym, self.class.stamper_class.stamper)
+            if respond_to?(self.deleted_by.to_sym) && has_stamper?
+              self.send("#{self.deleted_by}=".to_sym, self.class.stamper_class.stamper)
               save
             end
           end
