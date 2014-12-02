@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table :comments, :force => true do |t|
     t.column :post_id,        :integer
     t.column :comment,        :string
-    t.column :created_by,     :integer
+    t.column :created_by_id,     :integer
     t.column :created_at,     :datetime
     t.column :updated_by,     :integer
     t.column :updated_at,     :datetime

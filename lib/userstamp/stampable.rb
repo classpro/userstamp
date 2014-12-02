@@ -9,7 +9,7 @@ module Ddb #:nodoc:
     #
     #   Ddb::Userstamp.compatibility_mode = true
     #
-    # This will cause the plug-in to use columns named <tt>created_by</tt>,
+    # This will cause the plug-in to use columns named <tt>created_by_id</tt>,
     # <tt>updated_by</tt>, and <tt>deleted_by</tt>.
     mattr_accessor :compatibility_mode
     @@compatibility_mode = false
@@ -34,8 +34,8 @@ module Ddb #:nodoc:
 
           # What column should be used for the creatorr stamp?
           # Defaults to :creatorr_id when compatibility mode is off
-          # Defaults to :created_by when compatibility mode is on
-          class_attribute  :created_by
+          # Defaults to :created_by_id when compatibility mode is on
+          class_attribute  :created_by_id
 
           # What column should be used for the updatorr stamp?
           # Defaults to :updatorr_id when compatibility mode is off
@@ -68,7 +68,7 @@ module Ddb #:nodoc:
         def stampable(options = {})
 
           class_eval do
-            belongs_to :creatorr, :class_name => "User", :foreign_key => "created_by"
+            belongs_to :creatorr, :class_name => "User", :foreign_key => "created_by_id"
                                  
             belongs_to :updatorr, :class_name => "User", :foreign_key => "updated_by"
                                  
@@ -109,8 +109,8 @@ module Ddb #:nodoc:
 
           def set_creator_attribute
             return unless self.record_userstamp
-            if respond_to?(self.created_by.to_sym) && has_stamper?
-              self.send("#{self.created_by}=".to_sym, self.class.stamper_class.stamper)
+            if respond_to?(self.created_by_id.to_sym) && has_stamper?
+              self.send("#{self.created_by_id}=".to_sym, self.class.stamper_class.stamper)
             end
           end
 

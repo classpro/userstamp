@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["delynn@gmail.com"]
   s.homepage    = "https://github.com/delynn/userstamp"
   s.summary     = "Add audting to your ActiveRecord models"
-  s.description = %q{This Rails plugin extends ActiveRecord::Base to add automatic updating of created_by and updated_by attributes of your models in much the same way that the ActiveRecord::Timestamp module updates created_(at/on) and updated_(at/on) attributes.}
+  s.description = %q{This Rails plugin extends ActiveRecord::Base to add automatic updating of created_by_id and updated_by attributes of your models in much the same way that the ActiveRecord::Timestamp module updates created_(at/on) and updated_(at/on) attributes.}
 
   s.rubyforge_project = "userstamp"
 
