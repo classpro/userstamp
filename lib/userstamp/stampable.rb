@@ -110,21 +110,21 @@ module Ddb #:nodoc:
           def set_creator_attribute
             return unless self.record_userstamp
             if respond_to?(self.created_by_id.to_sym) && has_stamper?
-              self.class.send("#{self.created_by_id}=".to_sym, self.class.stamper_class.stamper, &block))
+              self.class.send("#{self.created_by_id}=".to_sym, self.class.stamper_class.stamper, &block)
             end
           end
 
           def set_updator_attribute
             return unless self.record_userstamp
             if respond_to?(self.updated_by_id.to_sym) && has_stamper?
-              self.class.send("#{self.updated_by_id}=".to_sym, self.class.stamper_class.stamper, &block))
+              self.class.send("#{self.updated_by_id}=".to_sym, self.class.stamper_class.stamper, &block)
             end
           end
 
           def set_deleter_attribute
             return unless self.record_userstamp
             if respond_to?(self.deleted_by_id.to_sym) && has_stamper?
-              self.class.send("#{self.deleted_by_id}=".to_sym, self.class.stamper_class.stamper, &block))
+              self.class.send("#{self.deleted_by_id}=".to_sym, self.class.stamper_class.stamper, &block)
               save
             end
           end
